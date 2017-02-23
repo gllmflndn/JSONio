@@ -18,7 +18,7 @@ function varargout = jsonwrite(varargin)
 %   JSON Standard: http://www.json.org/
 
 % Guillaume Flandin
-% $Id: jsonwrite.m 7014 2017-02-13 12:31:33Z guillaume $
+% $Id: spm_jsonwrite.m 7025 2017-02-22 10:03:58Z guillaume $
 
 
 %-Input parameters
@@ -29,12 +29,10 @@ if nargin > 1
     if ischar(varargin{1})
         filename = varargin{1};
         json     = varargin{2};
-        root     = inputname(2);
     else
         filename = '';
         json = varargin{1};
         opt  = varargin{2};
-        root = inputname(1);
     end
     if nargin > 2
         opt  = varargin{3};
@@ -42,7 +40,6 @@ if nargin > 1
 else
     filename = '';
     json     = varargin{1};
-    root     = inputname(1);
 end
 fn = fieldnames(opt);
 for i=1:numel(fn)
@@ -53,13 +50,6 @@ optregistry(opts);
 
 %-JSON serialization
 %--------------------------------------------------------------------------
-if ~isstruct(json) && ~iscell(json) && ~isa(json,'containers.Map')
-    if ~isempty(root)
-        json = struct(root,json);
-    else
-        error('Invalid JSON structure.');
-    end
-end
 fmt('init',sprintf(opts.indent));
 S = jsonwrite_var(json,~isempty(opts.indent));
 
@@ -92,8 +82,45 @@ elseif ischar(json)
     end
 elseif isnumeric(json) || islogical(json)
     S = jsonwrite_numeric(json);
+elseif isa(json,'string')
+    if numel(json) == 1
+        S = jsonwrite_char(char(json));
+    else
+        json = arrayfun(@(x)x,json,'UniformOutput',false);
+        json(cellfun(@(x) ismissing(x),json)) = {NaN}; % to be saved as null
+        idx = find(size(json)~=1);
+        if numel(idx) == 1 % vector
+            S = jsonwrite_cell(json,tab);
+        else % array
+            S = jsonwrite_cell(num2cell(json,setdiff(1:ndims(json),idx(1))),tab);
+        end
+    end
+elseif isa(json,'datetime') || isa(json,'categorical')
+    S = jsonwrite_var(string(json));
+elseif isa(json,'table')
+    S = struct;
+    s = size(json);
+    vn = json.Properties.VariableNames;
+    for i=1:s(1)
+        for j=1:s(2)
+            S(i).(vn{j}) = json{i,j};
+        end
+    end
+    S = jsonwrite_struct(S,tab);
 else
-    error('Class "%s" is not supported.',class(json));
+    if numel(json) ~= 1
+        json = arrayfun(@(x)x,json,'UniformOutput',false);
+        S = jsonwrite_cell(json,tab);
+    else
+        p = properties(json);
+        if isempty(p), p = fieldnames(json); end % for pre-classdef
+        s = struct;
+        for i=1:numel(p)
+            s.(p{i}) = json.(p{i});
+        end
+        S = jsonwrite_struct(s,tab);
+        %error('Class "%s" is not supported.',class(json));
+    end
 end
 
 %==========================================================================
@@ -122,8 +149,8 @@ end
 function S = jsonwrite_cell(json,tab)
 if numel(json) == 0 ...
         || (numel(json) == 1 && iscellstr(json)) ...
-        || all(cellfun(@isnumeric,json)) ...
-        || all(cellfun(@islogical,json))
+        || all(all(cellfun(@isnumeric,json))) ...
+        || all(all(cellfun(@islogical,json)))
     tab = '';
 end
 S = ['[' fmt('\n',tab)];
@@ -150,6 +177,9 @@ S = ['"' json '"'];
 
 %==========================================================================
 function S = jsonwrite_numeric(json)
+if any(imag(json(:)))
+    error('Complex numbers not supported.');
+end
 if numel(json) == 0
     S = jsonwrite_cell({});
     return;
