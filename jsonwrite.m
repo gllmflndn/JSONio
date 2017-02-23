@@ -18,7 +18,7 @@ function varargout = jsonwrite(varargin)
 %   JSON Standard: http://www.json.org/
 
 % Guillaume Flandin
-% $Id: spm_jsonwrite.m 7025 2017-02-22 10:03:58Z guillaume $
+% $Id: jsonwrite.m 7025 2017-02-22 10:03:58Z guillaume $
 
 
 %-Input parameters
