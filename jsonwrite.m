@@ -18,7 +18,7 @@ function varargout = jsonwrite(varargin)
 %   JSON Standard: http://www.json.org/
 
 % Guillaume Flandin
-% $Id: jsonwrite.m 7025 2017-02-22 10:03:58Z guillaume $
+% $Id: jsonwrite.m 7044 2017-03-16 13:00:09Z guillaume $
 
 
 %-Input parameters
@@ -132,7 +132,9 @@ if numel(json) == 1
         key = fn{i};
         if strcmp(optregistry('replacementStyle'),'hex')
             key = regexprep(key,...
-                'x0x([0-9a-fA-F]+)_', '${native2unicode(hex2dec($1))}');
+                '^x0x([0-9a-fA-F]{2})', '${native2unicode(hex2dec($1))}');
+            key = regexprep(key,...
+                '0x([0-9a-fA-F]{2})', '${native2unicode(hex2dec($1))}');
         end
         if isstruct(json), val = json.(fn{i}); else val = json(fn{i}); end
         S = [S fmt(tab) jsonwrite_char(key) ':' fmt(' ',tab) ...
