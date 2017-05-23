@@ -1,5 +1,5 @@
 /*
- * $Id: spm_jsonread.c 7077 2017-05-23 09:13:10Z guillaume $
+ * $Id: jsonread.c 7077 2017-05-23 09:13:10Z guillaume $
  * Guillaume Flandin
  */
 
