@@ -118,6 +118,15 @@ exp  = struct('cellarray',{{struct('a',1,'b',2);struct('a',3,'c',4)}});
 act  = jsonread(json);
 testCase.verifyTrue(isequal(exp, act));
 
+%   Array of objects, when    | cell array of
+%    all objects have the     | scalar structures
+%     same set of names       |
+%    but different order      |
+json = '{"structarray": [{"a":1,"b":2},{"b":3,"a":4}]}';
+exp  = struct('structarray',{{struct('a',1,'b',2);struct('b',3,'a',4)}});
+act  = jsonread(json);
+testCase.verifyTrue(isequal(exp, act));
+
 % empty struct
 json = '{"a":"aa","b":{},"c":"cc"}';
 exp = struct('a','aa','b',struct(),'c','cc');
