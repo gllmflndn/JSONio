@@ -1,5 +1,5 @@
 /*
- * $Id: jsonread.c 7077 2017-05-23 09:13:10Z guillaume $
+ * $Id: jsonread.c 7190 2017-10-17 11:22:43Z guillaume $
  * Guillaume Flandin
  */
 
@@ -30,6 +30,10 @@ mxArray *mexCallMATLABWithTrap(int nlhs, mxArray *plhs[], int nrhs, mxArray *prh
 }
 #endif
 */
+
+#if defined(_WIN32) || defined(_WIN64)
+  #define strcasecmp _stricmp
+#endif
 
 static enum jsonrepsty {
   JSON_REPLACEMENT_STYLE_NOP,
@@ -498,7 +502,8 @@ static char * get_data(const mxArray * mx, size_t * jslen) {
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     char *js = NULL;
-    size_t jslen = 0;
+    const char *field = NULL;
+    size_t i, jslen = 0, nfields;
     jsmntok_t *tok = NULL;
     mxArray *mx = NULL;
     char *repsty = NULL;
@@ -518,25 +523,34 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         if (!mxIsStruct(prhs[1])){
             mexErrMsgTxt("Input must be a struct.");
         }
-        mx = mxGetField(prhs[1],0,"ReplacementStyle");
-        if (mx != NULL) {
-            repsty = mxArrayToString(mx);
-            if (!strcasecmp(repsty,"nop")) {
-                ReplacementStyle = JSON_REPLACEMENT_STYLE_NOP;
-            }
-            else if (!strcasecmp(repsty,"underscore")) {
-                ReplacementStyle = JSON_REPLACEMENT_STYLE_UNDERSCORE;
-            }
-            else if (!strcasecmp(repsty,"hex")) {
-                ReplacementStyle = JSON_REPLACEMENT_STYLE_HEX;
-            }
-            else if (!strcasecmp(repsty,"delete")) {
-                ReplacementStyle = JSON_REPLACEMENT_STYLE_DELETE;
+        nfields = mxGetNumberOfFields(prhs[1]);
+        for (i = 0; i < nfields; i++) {
+            field = mxGetFieldNameByNumber(prhs[1], i);
+            if (!strcasecmp(field,"replacementStyle")) {
+                mx = mxGetFieldByNumber(prhs[1],0,i);
+                if (mx != NULL) {
+                    repsty = mxArrayToString(mx);
+                    if (!strcasecmp(repsty,"nop")) {
+                        ReplacementStyle = JSON_REPLACEMENT_STYLE_NOP;
+                    }
+                    else if (!strcasecmp(repsty,"underscore")) {
+                        ReplacementStyle = JSON_REPLACEMENT_STYLE_UNDERSCORE;
+                    }
+                    else if (!strcasecmp(repsty,"hex")) {
+                        ReplacementStyle = JSON_REPLACEMENT_STYLE_HEX;
+                    }
+                    else if (!strcasecmp(repsty,"delete")) {
+                        ReplacementStyle = JSON_REPLACEMENT_STYLE_DELETE;
+                    }
+                    else {
+                        mexErrMsgTxt("Unknown replacementStyle.");
+                    }
+                    mxFree(repsty);
+                }
             }
             else {
-                mexErrMsgTxt("Unknown ReplacementStyle.");
+                mexErrMsgTxt("Unknown optional parameter.");
             }
-            mxFree(repsty);
         }
     }
 
