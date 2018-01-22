@@ -1,8 +1,8 @@
  JSONio: a MATLAB JSON library (v1.1)
  ====================================
 
- Copyright (C) 2015-2017 Guillaume Flandin <Guillaume@artefact.tk>
- http://www.artefact.tk/software/matlab/jsonio/
+ Copyright (C) 2015-2018 Guillaume Flandin <Guillaume@artefact.tk>
+ https://www.artefact.tk/software/matlab/jsonio/
 
  JSONio is a MATLAB library to read/write data in the JSON (JavaScript Object
  Notation) data-interchange format. 
@@ -34,4 +34,4 @@
  -------------------------------------------------------------------------------
  MATLAB is a Registered Trademark of The Mathworks, Inc.
  
- Copyright (C) 2015-2017 Guillaume Flandin <Guillaume@artefact.tk>
+ Copyright (C) 2015-2018 Guillaume Flandin <Guillaume@artefact.tk>
