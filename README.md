@@ -1,37 +1,40 @@
- JSONio: a MATLAB JSON library (v1.1)
+ JSONio: a MATLAB JSON library (v1.2)
  ====================================
 
- Copyright (C) 2015-2018 Guillaume Flandin <Guillaume@artefact.tk>
  https://www.artefact.tk/software/matlab/jsonio/
 
  JSONio is a MATLAB library to read/write data in the JSON (JavaScript Object
  Notation) data-interchange format. 
  
-   JSON: http://www.json.org/
+ * JSON: https://www.json.org/
    
  It relies on the JSON parser jsmn written by Serge Zaitsev:
  
-   jsmn: http://zserge.com/jsmn.html
+ * jsmn: https://zserge.com/jsmn.html
 
  This library is also part of SPM:
  
-   SPM: http://www.fil.ion.ucl.ac.uk/spm/
+ * SPM: https://www.fil.ion.ucl.ac.uk/spm/
 
  INSTALLATION
- ============
+ ------------
  
  Simply add the JSONio directory to the MATLAB path:
- 
-  >> addpath /home/login/Documents/MATLAB/JSONio
+
+```matlab
+   addpath /home/login/Documents/MATLAB/JSONio
+```
   
  EXAMPLE
- =======
-      
-  >> json = jsonread(filename)
+ -------
 
-  >> jsonwrite(filename, json)
+```matlab
+   json = jsonread(filename)
+
+   jsonwrite(filename, json)
+```
  
  -------------------------------------------------------------------------------
  MATLAB is a Registered Trademark of The Mathworks, Inc.
  
- Copyright (C) 2015-2018 Guillaume Flandin <Guillaume@artefact.tk>
+ Copyright (C) 2015-2019 Guillaume Flandin <Guillaume@artefact.tk>
