@@ -1,10 +1,9 @@
- JSONio: a MATLAB JSON library (v1.2)
+ JSONio: a MATLAB/Octave JSON library
  ====================================
 
  https://www.artefact.tk/software/matlab/jsonio/
 
- JSONio is a MATLAB library to read/write data in the JSON (JavaScript Object
- Notation) data-interchange format. 
+ JSONio is a MATLAB/Octave library to read/write data in the JSON (JavaScript Object Notation) data-interchange format. 
  
  * JSON: https://www.json.org/
    
@@ -22,19 +21,22 @@
  Simply add the JSONio directory to the MATLAB path:
 
 ```matlab
-   addpath /home/login/Documents/MATLAB/JSONio
+addpath /home/login/Documents/MATLAB/JSONio
 ```
-  
+ 
+ A compiled MEX file is provided for 64-bit MATLAB platforms. It needs to be compiled for Octave with:
+ ```
+mkoctfile --mex jsonread.c jsmn.c -DJSMN_PARENT_LINKS
+ ```
+ 
  EXAMPLE
  -------
 
 ```matlab
-   json = jsonread(filename)
+json = jsonread(filename)
 
-   jsonwrite(filename, json)
+jsonwrite(filename, json)
 ```
  
  -------------------------------------------------------------------------------
- MATLAB is a Registered Trademark of The Mathworks, Inc.
- 
- Copyright (C) 2015-2019 Guillaume Flandin <Guillaume@artefact.tk>
+ Copyright (C) 2015-2020 Guillaume Flandin <Guillaume@artefact.tk>
