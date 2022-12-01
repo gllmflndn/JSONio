@@ -19,3 +19,5 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
+      - name: Test MEX compilation
+        run: mex -help
