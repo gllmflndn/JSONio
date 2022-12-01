@@ -15,9 +15,13 @@ jobs:
         uses: matlab-actions/setup-matlab@v1
         with:
           release: ${{matrix.version}}
-      - name: Run commands
+      - name: Run tests with existing MEX files
         uses: matlab-actions/run-command@v1
         with:
           command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
-      - name: Test MEX compilation
-        run: mex -help
+      - name: Compile MEX file
+        run: mex jsonread.c jsmn.c -DJSMN_PARENT_LINKS
+      - name: Run tests with newly compiled MEX files
+        uses: matlab-actions/run-command@v1
+        with:
+          command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
