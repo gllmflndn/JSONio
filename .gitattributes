@@ -1,0 +1,18 @@
+* text=auto
+
+*.m text diff=matlab
+*.c text
+*.cpp text
+*.h text
+*.md text
+
+*.fig binary
+*.mat binary
+*.mex binary
+*.mexa64 binary
+*.mexw64 binary
+*.mexmaci64 binary
+*.mexmaca64 binary
+*.mlapp binary
+*.mlx binary
+*.p binary
