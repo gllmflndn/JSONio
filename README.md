@@ -1,8 +1,8 @@
 # JSONio: a MATLAB/Octave JSON library
 
 ![GitHub](https://img.shields.io/github/license/gllmflndn/JSONio)
-[![Build](https://github.com/gllmflndn/JSONio/actions/workflows/matlab.yml/badge.svg)](https://github.com/gllmflndn/JSONio/actions)
-
+[![MATLAB](https://github.com/gllmflndn/JSONio/actions/workflows/matlab.yml/badge.svg)](https://github.com/gllmflndn/JSONio/actions)
+[![Octave](https://github.com/gllmflndn/JSONio/actions/workflows/octave.yml/badge.svg)](https://github.com/gllmflndn/JSONio/actions)
 
 JSONio is a MATLAB/Octave library to read/write data in the JSON (JavaScript Object Notation) data-interchange format. 
  
