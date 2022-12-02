@@ -1,4 +1,4 @@
-name: Run MATLAB Tests
+name: MATLAB Tests
 on:
   push:
     branches:
