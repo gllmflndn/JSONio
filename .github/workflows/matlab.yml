@@ -1,5 +1,10 @@
 name: Run MATLAB Tests
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+  workflow_dispatch:
 jobs:
   matlab-test:
     name: Run MATLAB Tests
@@ -39,5 +44,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jsonio-mex-${{matrix.os}}-${{matrix.version}}
-          path: ./**/*.mex*
+          path: ./**/*.${mexext}
           retention-days: 5
