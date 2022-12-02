@@ -1,0 +1,70 @@
+name: Octave Tests
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update && sudo apt-get install -y \
+            octave liboctave-dev && \
+          octave --version
+      - name: Compile JSONio MEX files
+        run: mkoctfile --mex jsonread.c jsmn.c -DJSMN_PARENT_LINKS
+
+      - name: Install JSONio library in GNU Octave
+        run: octave --no-gui --no-window-system --silent --eval "addpath (pwd); savepath ();"
+
+      - name: Run tests
+        run: octave --no-gui --no-window-system --silent --eval "disp ('Disabled.')"
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install GNU Octave
+        run: |
+          choco install octave.portable
+          octave --version
+          
+      - name: Compile JSONio MEX files
+        run: octave --no-gui --no-window-system --silent --eval "mkoctfile --mex jsonread.c jsmn.c -DJSMN_PARENT_LINKS"
+        
+      - name: Install JSONio library in GNU Octave
+        run: octave --no-gui --no-window-system --silent --eval "addpath (pwd); savepath ();"
+
+      - name: Run tests
+        run: octave --no-gui --no-window-system --silent --eval "disp ('Disabled.')"
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install GNU Octave
+        run: |
+          brew install octave # https://formulae.brew.sh/formula/octave
+          octave --version
+          
+      - name: Compile JSONio MEX files
+        run: octave --no-gui --no-window-system --silent --eval "mkoctfile --mex jsonread.c jsmn.c -DJSMN_PARENT_LINKS"
+        
+      - name: Install JSONio library in GNU Octave
+        run: octave --no-gui --no-window-system --silent --eval "addpath (pwd); savepath ();"
+
+      - name: Run tests
+        run: octave --no-gui --no-window-system --silent --eval "disp ('Disabled.')"
+        
