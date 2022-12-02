@@ -41,7 +41,10 @@ jobs:
         with:
           command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
       - name: Get MEX extension
-        run: echo "MEX=$(mexext)" >> $GITHUB_ENV
+        run: |
+          echo "MEX=$(mexext)" >> $GITHUB_ENV
+          echo "MEX=$(mexext)"
+          mexext
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
