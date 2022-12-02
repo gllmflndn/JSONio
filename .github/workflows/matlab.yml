@@ -47,7 +47,7 @@ jobs:
           elif [ "$RUNNER_OS" == "macOS" ]; then
             echo "MEXEXT=$(mexext)" >> $GITHUB_ENV
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            echo "MEXEXT=$(mexext)" >> $env:GITHUB_ENV
+            echo "MEXEXT=$(mexext.bat)" >> $env:GITHUB_ENV
           else
             echo "$RUNNER_OS not supported"
             exit 1
@@ -56,6 +56,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: jsonio-mex-${{matrix.os}}-${{matrix.version}}
+          name: jsonio-mex-${{runner.os}}-${{matrix.version}}
           path: ./**/*.${{env.MEXEXT}}
           retention-days: 5
