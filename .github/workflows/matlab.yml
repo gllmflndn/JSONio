@@ -40,19 +40,12 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
-      - name: Get MEX extension
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            echo "MEXEXT=$(mexext)" >> $GITHUB_ENV
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            echo "MEXEXT=$(mexext)" >> $GITHUB_ENV
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            echo "MEXEXT=$(mexext.bat)" >> $env:GITHUB_ENV
-          else
-            echo "$RUNNER_OS not supported"
-            exit 1
-          fi
-        shell: bash
+      - name: Get MEX extension on Linux/macOS
+        if: runner.os != 'Windows'
+        run: echo "MEXEXT=$(mexext)" >> $GITHUB_ENV
+      - name: Get MEX extension on Windows
+        if: runner.os == 'Windows'
+        run: echo "MEXEXT=$(mexext.bat)" >> $env:GITHUB_ENV
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
