@@ -40,9 +40,11 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
+      - name: Get MEX extension
+        run: echo "MEX=$(mexext)" >> $GITHUB_ENV
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: jsonio-mex-${{matrix.os}}-${{matrix.version}}
-          path: ./**/*.${mexext}
+          path: ./**/*.${{env.MEX}}
           retention-days: 5
