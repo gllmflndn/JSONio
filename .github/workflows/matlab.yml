@@ -42,12 +42,20 @@ jobs:
           command: addpath(pwd); results = runtests('tests'), assertSuccess(results);
       - name: Get MEX extension
         run: |
-          echo "MEX=$(mexext)" >> $GITHUB_ENV
-          echo "MEX=$(mexext)"
-          mexext
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            echo "MEXEXT=$(mexext)" >> $GITHUB_ENV
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            echo "MEXEXT=$(mexext)" >> $GITHUB_ENV
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            echo "MEXEXT=$(mexext)" >> $env:GITHUB_ENV
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+        shell: bash
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: jsonio-mex-${{matrix.os}}-${{matrix.version}}
-          path: ./**/*.${{env.MEX}}
+          path: ./**/*.${{env.MEXEXT}}
           retention-days: 5
