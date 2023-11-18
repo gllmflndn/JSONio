@@ -13,8 +13,7 @@ function json = jsonread(filename, opts)
 %   JSMN C parser: http://zserge.com/jsmn.html
 %   jsondecode: http://www.mathworks.com/help/matlab/ref/jsondecode.html
 
-% Guillaume Flandin
-% $Id: jsonread.m 7045 2017-03-17 10:41:12Z guillaume $
+% JSONio: https://www.gllmflndn.com/software/matlab/jsonio/
 
 
 %-This is merely the help file for the compiled routine

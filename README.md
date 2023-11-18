@@ -8,13 +8,9 @@ JSONio is a MATLAB/Octave library to read/write data in the JSON (JavaScript Obj
  
 * JSON: https://www.json.org/
    
-It relies on the JSON parser jsmn written by [Serge Zaitsev](https://zserge.com/):
+It relies on the excellent JSON parser `jsmn` written by [Serge Zaitsev](https://zserge.com/):
  
 * jsmn: https://zserge.com/jsmn/
-
-This library is also part of SPM:
- 
-* SPM: https://www.fil.ion.ucl.ac.uk/spm/
 
 ## INSTALLATION
  

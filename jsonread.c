@@ -1,6 +1,5 @@
 /*
- * $Id: jsonread.c 7257 2018-02-12 15:51:12Z guillaume $
- * Guillaume Flandin
+ * JSONio: https://www.gllmflndn.com/software/matlab/jsonio/
  */
 
 #include <stdio.h>
